@@ -37,4 +37,10 @@ export type TUser = {
   name: string;
 };
 
+export type IngredientsState = {
+  items: TIngredient[];
+  isLoading: boolean;
+  error: string | null;
+};
+
 export type TTabMode = 'bun' | 'sauce' | 'main';

@@ -1,45 +1,62 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  selectConstructorIngredients,
+  selectConstructorBun,
+  selectOrderModalData,
+  selectOrderRequest
+} from '../../services/Selectors/Selectors';
+import {
+  createOrder,
+  closeOrderModal
+} from '../../services/user/slices/constructorSlice';
 import { BurgerConstructorUI } from '@ui';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const ingredients = useSelector(selectConstructorIngredients);
+  const bun = useSelector(selectConstructorBun);
+  const orderRequest = useSelector(selectOrderRequest);
+  const orderModalData = useSelector(selectOrderModalData);
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!bun || orderRequest) return;
+
+    const ingredientIds = [
+      bun._id,
+      ...ingredients.map((item) => item._id),
+      bun._id
+    ];
+
+    dispatch(createOrder(ingredientIds));
   };
-  const closeOrderModal = () => {};
 
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
+  const handleCloseModal = () => {
+    dispatch(closeOrderModal());
+  };
 
-  return null;
+  const price = useMemo(() => {
+    const ingredientsPrice = Array.isArray(ingredients)
+      ? ingredients.reduce((acc, item) => acc + item.price, 0)
+      : 0;
+
+    const bunPrice = bun ? bun.price * 2 : 0;
+    return ingredientsPrice + bunPrice;
+  }, [ingredients, bun]);
 
   return (
     <BurgerConstructorUI
       price={price}
       orderRequest={orderRequest}
-      constructorItems={constructorItems}
+      constructorItems={{
+        bun: bun || null,
+        ingredients: Array.isArray(ingredients) ? ingredients : []
+      }}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
-      closeOrderModal={closeOrderModal}
+      closeOrderModal={handleCloseModal}
     />
   );
 };
