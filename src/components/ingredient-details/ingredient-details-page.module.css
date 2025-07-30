@@ -1,0 +1,10 @@
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 60px); /* с учётом высоты AppHeader */
+  padding-top: 40px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  background-color: #131316; /* фон как в приложении */
+}

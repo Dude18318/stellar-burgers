@@ -24,6 +24,10 @@
   color: var(--text-primary-color);
 }
 
+.link_inactive {
+  color: var(--text-inactive-color);
+}
+
 .link_position_last {
   display: flex;
   justify-content: flex-end;
@@ -40,5 +44,5 @@
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: inherit;
+  /* color: inherit;  */
 }

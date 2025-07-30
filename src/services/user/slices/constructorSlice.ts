@@ -43,7 +43,7 @@ const burgerConstructorSlice = createSlice({
       } else {
         state.ingredients.push({
           ...action.payload,
-          id: `${action.payload._id}-${state.nextIngredientId++}` // 👈 составной id
+          id: `${action.payload._id}-${state.nextIngredientId++}`
         });
       }
     },
@@ -83,6 +83,9 @@ const burgerConstructorSlice = createSlice({
         (state, action: PayloadAction<TOrder>) => {
           state.orderRequest = false;
           state.orderModalData = action.payload;
+          state.bun = null;
+          state.ingredients = [];
+          state.nextIngredientId = 1;
         }
       )
       .addCase(createOrder.rejected, (state, action) => {

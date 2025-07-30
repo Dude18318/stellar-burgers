@@ -13,7 +13,7 @@ type TFeedsResponse = {
 export const fetchOrders = createAsyncThunk<TFeedsResponse>(
   'feed/fetchOrders',
   async () => {
-    const response = await getFeedsApi(); // ← используем публичный эндпоинт
+    const response = await getFeedsApi();
     return response;
   }
 );

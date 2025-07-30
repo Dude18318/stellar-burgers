@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RegisterUI } from '@ui-pages';
 import {
   registerUser,
@@ -11,6 +11,7 @@ import {
 export const Register: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +20,9 @@ export const Register: FC = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const error = useSelector(selectAuthError);
 
+  // получаем путь, с которого пользователь пришёл
+  const from = (location.state as { from?: Location })?.from?.pathname || '/';
+
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     dispatch(registerUser({ email, password, name: userName }));
@@ -26,9 +30,9 @@ export const Register: FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate(from); // редирект туда, откуда пришёл пользователь
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, from]);
 
   return (
     <RegisterUI

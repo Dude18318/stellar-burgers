@@ -12,6 +12,7 @@ import {
   ProfileOrders,
   NotFound404
 } from '@pages';
+import { Feed } from '@pages';
 import { FeedInfo } from '@components';
 import { IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../routes/ProtectedRoute';
@@ -21,6 +22,7 @@ import { fetchIngredients } from '../../services/user/slices/ingredientSlice';
 
 import '../../index.css';
 import styles from './app.module.css';
+import { getUser } from '../../services/user/slices/authSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(getUser());
   }, [dispatch]);
 
   return (
@@ -95,13 +98,12 @@ const App = () => {
           }
         />
         <Route path='/' element={<ConstructorPage />} />
-        <Route path='/feed' element={<FeedInfo />} />
+        <Route path='/feed' element={<Feed />} />
         <Route path='/feed/:number' element={<OrderInfo />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 
-      {/* Модалки поверх страниц */}
       {background && (
         <Routes>
           <Route

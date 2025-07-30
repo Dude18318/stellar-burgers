@@ -1,6 +1,10 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../../services/Selectors/Selectors';
+import { Preloader } from '@ui';
+import {
+  selectIsAuthenticated,
+  selectIsUserChecked
+} from '../../services/Selectors/Selectors';
 
 type ProtectedRouteProps = {
   onlyUnAuth?: boolean;
@@ -12,10 +16,16 @@ export const ProtectedRoute = ({
   children
 }: ProtectedRouteProps) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const isUserChecked = useSelector(selectIsUserChecked);
+
   const location = useLocation();
 
   if (onlyUnAuth && isAuthenticated) {
     return <Navigate to='/' replace />;
+  }
+
+  if (!isUserChecked) {
+    return <Preloader />;
   }
 
   if (!onlyUnAuth && !isAuthenticated) {

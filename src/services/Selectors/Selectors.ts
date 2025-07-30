@@ -16,6 +16,9 @@ export const selectOrderRequest = (state: RootState) =>
 export const selectIsAuthenticated = (state: RootState) =>
   state.auth.isAuthenticated;
 
+export const selectIsUserChecked = (state: RootState) =>
+  state.auth.isUserChecked;
+
 export const selectUser = (state: RootState) => state.auth.user;
 
 export const selectOrders = (state: RootState) => state.feed.orders;

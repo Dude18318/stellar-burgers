@@ -10,12 +10,14 @@ import { TUser } from '@utils-types';
 
 type AuthState = {
   isAuthenticated: boolean;
+  isUserChecked: boolean;
   user: TUser | null;
   error: string | null;
 };
 
 const initialState: AuthState = {
   isAuthenticated: false,
+  isUserChecked: false,
   user: null,
   error: null
 };
@@ -75,7 +77,6 @@ export const getUser = createAsyncThunk('auth/getUser', async (_, thunkAPI) => {
   }
 });
 
-// ✏️ Обновить данные пользователя
 export const updateUser = createAsyncThunk(
   'auth/updateUser',
   async (userData: Partial<TUser>, thunkAPI) => {
@@ -104,18 +105,20 @@ export const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<TUser>) => {
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isUserChecked = true;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.error = action.payload as string;
+        state.isUserChecked = true;
       })
 
-      // register
       .addCase(
         registerUser.fulfilled,
         (state, action: PayloadAction<TUser>) => {
           state.user = action.payload;
           state.isAuthenticated = true;
+          state.isUserChecked = true;
           state.error = null;
         }
       )
@@ -123,7 +126,6 @@ export const authSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
@@ -137,10 +139,13 @@ export const authSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action: PayloadAction<TUser>) => {
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.isUserChecked = true;
         state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.error = action.payload as string;
+        state.isUserChecked = true;
+        state.isAuthenticated = false;
       })
 
       // updateUser
