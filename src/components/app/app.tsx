@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-
+import { OrderModal } from '../modal/ordermodal';
 import { AppHeader } from '@components';
 import {
   ConstructorPage,
@@ -19,6 +19,7 @@ import { ProtectedRoute } from '../routes/ProtectedRoute';
 
 import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../services/user/slices/ingredientSlice';
+import { fetchOrders } from '../../services/user/slices/feedSlice';
 
 import '../../index.css';
 import styles from './app.module.css';
@@ -34,6 +35,7 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchIngredients());
     dispatch(getUser());
+    dispatch(fetchOrders());
   }, [dispatch]);
 
   return (
@@ -117,18 +119,18 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Детали заказа' onClose={() => navigate(-1)}>
+              <OrderModal>
                 <OrderInfo />
-              </Modal>
+              </OrderModal>
             }
           />
           <Route
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='Детали заказа' onClose={() => navigate(-1)}>
+                <OrderModal>
                   <OrderInfo />
-                </Modal>
+                </OrderModal>
               </ProtectedRoute>
             }
           />

@@ -21,6 +21,11 @@ export const IngredientDetails: FC = () => {
   return isModal ? (
     content
   ) : (
-    <div className={styles.pageWrapper}>{content}</div>
+    <div className={styles.pageWrapper}>
+      <h1 className='text text_type_main-large mt-10 mb-5 text-center'>
+        Детали ингредиента
+      </h1>
+      {content}
+    </div>
   );
 };

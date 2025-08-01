@@ -23,6 +23,8 @@ export const OrderInfo: FC = () => {
       [key: string]: TIngredient & { count: number };
     };
 
+    const status = orderData.status;
+
     const ingredientsInfo = orderData.ingredients.reduce(
       (acc: TIngredientsWithCount, item) => {
         if (!acc[item]) {
@@ -46,9 +48,9 @@ export const OrderInfo: FC = () => {
       (acc, item) => acc + item.price * item.count,
       0
     );
-
     return {
       ...orderData,
+      status,
       ingredientsInfo,
       date,
       total

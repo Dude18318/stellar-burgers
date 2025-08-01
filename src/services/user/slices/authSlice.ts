@@ -22,7 +22,6 @@ const initialState: AuthState = {
   error: null
 };
 
-// 🔐 Логин
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (
@@ -93,7 +92,6 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // Ручной logout без удаления токенов
     logout: (state) => {
       state.isAuthenticated = false;
       state.user = null;

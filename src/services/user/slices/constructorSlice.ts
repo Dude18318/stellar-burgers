@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient, TOrder, TConstructorIngredient } from '@utils-types';
 import { orderBurgerApi } from '@api';
+import { RootState } from 'src/services/store';
 
 type BurgerConstructorState = {
   bun: TIngredient | null;
@@ -20,17 +21,25 @@ const initialState: BurgerConstructorState = {
   error: null
 };
 
-export const createOrder = createAsyncThunk(
-  'burgerConstructor/createOrder',
-  async (items: string[], thunkAPI) => {
-    try {
-      const res = await orderBurgerApi(items);
-      return res.order;
-    } catch (err: any) {
-      return thunkAPI.rejectWithValue(err.message);
-    }
+export const createOrder = createAsyncThunk<
+  TOrder,
+  string[],
+  { state: RootState; rejectValue: string }
+>('burgerConstructor/createOrder', async (items: string[], thunkAPI) => {
+  const state = thunkAPI.getState();
+  const isAuthenticated = state.auth.isAuthenticated;
+
+  if (!isAuthenticated) {
+    return thunkAPI.rejectWithValue('Пользователь не авторизован');
   }
-);
+
+  try {
+    const res = await orderBurgerApi(items);
+    return res.order;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue(err.message);
+  }
+});
 
 const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
