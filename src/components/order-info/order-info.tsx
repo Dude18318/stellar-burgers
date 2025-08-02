@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useSelector } from '../../services/store';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
@@ -11,6 +11,8 @@ export const OrderInfo: FC = () => {
   const { number } = useParams();
   const orders = useSelector(selectOrders);
   const ingredients = useSelector(selectIngredients);
+  const location = useLocation();
+  const isModal = location.state && location.state.background;
 
   const orderData = orders.find((order) => order.number === Number(number));
 
@@ -61,5 +63,5 @@ export const OrderInfo: FC = () => {
     return <Preloader />;
   }
 
-  return <OrderInfoUI orderInfo={orderInfo} />;
+  return <OrderInfoUI orderInfo={orderInfo} isModal={isModal} />;
 };

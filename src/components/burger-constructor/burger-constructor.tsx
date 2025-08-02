@@ -4,7 +4,8 @@ import {
   selectConstructorIngredients,
   selectConstructorBun,
   selectOrderModalData,
-  selectOrderRequest
+  selectOrderRequest,
+  selectIsAuthenticated
 } from '../../services/Selectors/Selectors';
 import {
   createOrder,
@@ -12,17 +13,25 @@ import {
 } from '../../services/user/slices/constructorSlice';
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const ingredients = useSelector(selectConstructorIngredients);
   const bun = useSelector(selectConstructorBun);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const onOrderClick = () => {
     if (!bun || orderRequest) return;
+
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: location } });
+      return;
+    }
 
     const ingredientIds = [
       bun._id,
