@@ -1,6 +1,6 @@
 import { loginUserApi, logoutApi } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { TLoginData } from '@api';
+import { TLoginData } from '@utils-types';
 import { TUser } from '@utils-types';
 import { logout } from './slices/authSlice';
 
