@@ -1,14 +1,31 @@
 import { FC } from 'react';
-import { Preloader } from '../ui/preloader';
+import { useParams, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
+import { Preloader } from '../ui/preloader';
+import { selectIngredients } from '../../services/user/slices/ingredientSlice';
+import styles from './ingredient-details-page.module.css';
 
 export const IngredientDetails: FC = () => {
-  /** TODO: взять переменную из стора */
-  const ingredientData = null;
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const ingredients = useSelector(selectIngredients);
+  const ingredientData = ingredients.find((i) => i._id === id);
 
-  if (!ingredientData) {
-    return <Preloader />;
-  }
+  const isModal = location.state && location.state.background;
 
-  return <IngredientDetailsUI ingredientData={ingredientData} />;
+  if (!ingredientData) return <Preloader />;
+
+  const content = <IngredientDetailsUI ingredientData={ingredientData} />;
+
+  return isModal ? (
+    content
+  ) : (
+    <div className={styles.pageWrapper}>
+      <h1 className='text text_type_main-large mt-10 mb-5 text-center'>
+        Детали ингредиента
+      </h1>
+      {content}
+    </div>
+  );
 };

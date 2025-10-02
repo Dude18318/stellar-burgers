@@ -1,0 +1,11 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: calc(100vh - 60px); /* с учётом AppHeader */
+  padding-top: 40px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+  background-color: #131316;
+}
