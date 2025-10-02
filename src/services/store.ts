@@ -6,9 +6,9 @@ import {
 } from 'react-redux';
 
 import { ingredientsReducer } from './user/slices/ingredientSlice';
-import { burgerConstructorReducer } from './user/slices/constructorSlice'; //
-import { auth } from './user/slices/authSlice'; //
-import feedReducer from './user/slices/feedSlice'; //
+import { burgerConstructorReducer } from './user/slices/constructorSlice';
+import { auth } from './user/slices/authSlice';
+import feedReducer from './user/slices/feedSlice';
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burgerConstructor: burgerConstructorReducer,
@@ -28,8 +28,6 @@ export const store = configureStore({
 
 store.subscribe(() => {
   const state = store.getState();
-
-  const constructorState = state.constructor;
 });
 
 export type RootState = ReturnType<typeof store.getState>;

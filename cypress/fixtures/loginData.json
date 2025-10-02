@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2JmMjgzNWE1NGRmMDAxYjZkZjY1MyIsImlhdCI6MTc1ODk3MzY3OCwiZXhwIjoxNzU4OTc0ODc4fQ.HuwrRw6VIRwZnaF0ztSS9bi6iU1JNiKEJwZ5PY8f7FE",
+  "refreshToken": "1dedaae6c2b4b56460aad8f0308778230024e925036d92930aa87128b653aad2221028cf9472de8a",
+  "user": {
+    "email": "realone.ryabtsev@yandex.ru",
+    "name": "Alex"
+  }
+}

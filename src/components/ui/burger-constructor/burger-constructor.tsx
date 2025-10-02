@@ -18,25 +18,33 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
   onOrderClick,
   closeOrderModal
 }) => (
-  <section className={styles.burger_constructor}>
-    {constructorItems.bun ? (
-      <div className={`${styles.element} mb-4 mr-4`}>
-        <ConstructorElement
-          type='top'
-          isLocked
-          text={`${constructorItems.bun.name} (верх)`}
-          price={constructorItems.bun.price}
-          thumbnail={constructorItems.bun.image}
-        />
-      </div>
-    ) : (
-      <div
-        className={`${styles.noBuns} ${styles.noBunsTop} ml-8 mb-4 mr-5 text text_type_main-default`}
-      >
-        Выберите булки
-      </div>
-    )}
-    <ul className={styles.elements}>
+  <section
+    className={styles.burger_constructor}
+    data-cy='burgerConstructorRoot'
+  >
+    <div data-cy={'upper-bun'}>
+      {constructorItems.bun ? (
+        <div
+          className={`${styles.element} mb-4 mr-4`}
+          data-cy={`ingredient-constructor:${constructorItems.bun._id}`}
+        >
+          <ConstructorElement
+            type='top'
+            isLocked
+            text={`${constructorItems.bun.name} (верх)`}
+            price={constructorItems.bun.price}
+            thumbnail={constructorItems.bun.image}
+          />
+        </div>
+      ) : (
+        <div
+          className={`${styles.noBuns} ${styles.noBunsTop} ml-8 mb-4 mr-5 text text_type_main-default`}
+        >
+          Выберите булки
+        </div>
+      )}
+    </div>
+    <ul className={styles.elements} data-cy={'main'}>
       {constructorItems.ingredients.length > 0 ? (
         constructorItems.ingredients.map(
           (item: TConstructorIngredient, index: number) => (
@@ -56,24 +64,29 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         </div>
       )}
     </ul>
-    {constructorItems.bun ? (
-      <div className={`${styles.element} mt-4 mr-4`}>
-        <ConstructorElement
-          type='bottom'
-          isLocked
-          text={`${constructorItems.bun.name} (низ)`}
-          price={constructorItems.bun.price}
-          thumbnail={constructorItems.bun.image}
-        />
-      </div>
-    ) : (
-      <div
-        className={`${styles.noBuns} ${styles.noBunsBottom} ml-8 mb-4 mr-5 text text_type_main-default`}
-      >
-        Выберите булки
-      </div>
-    )}
-    <div className={`${styles.total} mt-10 mr-4`}>
+    <div data-cy={'lower-bun'}>
+      {constructorItems.bun ? (
+        <div
+          className={`${styles.element} mt-4 mr-4`}
+          data-cy={`ingredient-constructor:${constructorItems.bun._id}`}
+        >
+          <ConstructorElement
+            type='bottom'
+            isLocked
+            text={`${constructorItems.bun.name} (низ)`}
+            price={constructorItems.bun.price}
+            thumbnail={constructorItems.bun.image}
+          />
+        </div>
+      ) : (
+        <div
+          className={`${styles.noBuns} ${styles.noBunsBottom} ml-8 mb-4 mr-5 text text_type_main-default`}
+        >
+          Выберите булки
+        </div>
+      )}
+    </div>
+    <div className={`${styles.total} mt-10 mr-4`} data-cy='confirmButton'>
       <div className={`${styles.cost} mr-10`}>
         <p className={`text ${styles.text} mr-2`}>{price}</p>
         <CurrencyIcon type='primary' />

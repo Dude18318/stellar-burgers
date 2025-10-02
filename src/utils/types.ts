@@ -14,6 +14,7 @@ export type TIngredient = {
 
 export type TConstructorIngredient = TIngredient & {
   id: string;
+  _id?: string;
 };
 
 export type TOrder = {
@@ -44,3 +45,49 @@ export type IngredientsState = {
 };
 
 export type TTabMode = 'bun' | 'sauce' | 'main';
+
+// Универсальная серверная «обёртка»
+export type TServerResponse<T> = {
+  success: boolean;
+} & T;
+
+// Аутентификация
+export type TRegisterData = {
+  email: string;
+  name: string;
+  password: string;
+};
+
+export type TLoginData = {
+  email: string;
+  password: string;
+};
+
+export type TAuthResponse = TServerResponse<{
+  refreshToken: string;
+  accessToken: string;
+  user: TUser;
+}>;
+
+export type TRefreshResponse = TServerResponse<{
+  refreshToken: string;
+  accessToken: string;
+}>;
+
+export type TUserResponse = TServerResponse<{ user: TUser }>;
+
+// Ответы API
+export type TIngredientsResponse = TServerResponse<{ data: TIngredient[] }>;
+
+export type TFeedsResponse = TServerResponse<TOrdersData>;
+
+export type TOrdersResponse = TServerResponse<{ data: TOrder[] }>;
+
+export type TNewOrderResponse = TServerResponse<{
+  order: TOrder;
+  name: string;
+}>;
+
+export type TOrderResponse = TServerResponse<{
+  orders: TOrder[];
+}>;
